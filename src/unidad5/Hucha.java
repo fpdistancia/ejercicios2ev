@@ -13,7 +13,7 @@ public class Hucha {
 	private static int [] tipos = {50, 20, 10, 5, 2, 1};
 	private int [] desglose  = new int[tipos.length];
 	private boolean abierta;
-	private String contraseña;
+	private String contraseña = "";
 	
 	public Hucha() {
 	}
@@ -61,25 +61,51 @@ public class Hucha {
 		this.contraseña = contraseña;
 	}
 	
-	public int getDesglose(int tipo) {
-		return desglose[tipo];
+	public int getDesglose(int tipo) throws HuchaVaciaException {
+		if (abierta)
+			return desglose[tipo];
+		else
+			throw new HuchaVaciaException();
 	}
 	
-	public int retirar(int cantidad, int tipo) {
-		if (desglose[tipo] < cantidad)
-			cantidad = desglose[tipo];
-		desglose[tipo] -= cantidad;
-		return cantidad;
-	}
-	
-	public int retirar(int cantidad) {
-		// modificar esto para hacer lo que se pide
-		for (int i=0; i<tipos.length && cantidad > 0; i++) {
-			if (cantidad > tipos[i]) {
-				desglose[i] = cantidad / tipos[i];
-				cantidad %= tipos[i];
-			}
+	public int retirar(int cantidad, int tipo) throws HuchaVaciaException {
+		if (abierta) {
+			if (desglose[tipo] < cantidad)
+				cantidad = desglose[tipo];
+			desglose[tipo] -= cantidad;
+			return cantidad;
 		}
+		else
+			throw new HuchaVaciaException();
+	}
+	
+	public int retirar(int cantidad) throws HuchaVaciaException {
+		// modificar esto para hacer lo que se pide
+		if (abierta) {
+			for (int i=0; i<tipos.length && cantidad > 0; i++) {
+				if (cantidad > tipos[i]) {
+					desglose[i] = cantidad / tipos[i];
+					cantidad %= tipos[i];
+				}
+			}
+			return 0; // esto no esta bien
+		}
+		else
+			throw new HuchaVaciaException();
+	}
+	
+	public void abrir(String contraseña) throws ContraseñaIncorrectaException {
+		if (this.contraseña.equals(contraseña))
+			abierta = true;
+		else
+			throw new ContraseñaIncorrectaException();
+	}
+	
+	public void cerrar(String contraseña) throws ContraseñaIncorrectaException {
+		if (this.contraseña.equals(contraseña))
+			abierta = false;
+		else
+			throw new ContraseñaIncorrectaException();
 	}
 	
 	@Override
@@ -87,10 +113,4 @@ public class Hucha {
 		return Arrays.toString(desglose);
 	}
 	
-	public static void main(String[] args) {
-		Hucha h = new Hucha(224);
-		System.out.println(h);
-		System.out.println(h.retirar(10, Hucha.CINCUENTA));
-		System.out.println(h);
-	}
 }
