@@ -61,7 +61,9 @@ public class Hucha {
 		this.contraseña = contraseña;
 	}
 	
-	public int getDesglose(int tipo) throws HuchaVaciaException {
+	public int getDesglose(int tipo) throws HuchaVaciaException, TipoDeBilleteMonedaNoValidoException {
+		if (tipo < 0 || tipo >= desglose.length)
+			throw new TipoDeBilleteMonedaNoValidoException();
 		if (abierta)
 			return desglose[tipo];
 		else
@@ -113,4 +115,9 @@ public class Hucha {
 		return Arrays.toString(desglose);
 	}
 	
+	public static void main(String[] args) throws HuchaVaciaException, TipoDeBilleteMonedaNoValidoException {
+		Hucha h = new Hucha(1500);
+		
+		System.out.println(h.getDesglose(Hucha.VEINTE));
+	}
 }

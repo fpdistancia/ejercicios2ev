@@ -10,8 +10,10 @@ public class PruebaHucha {
 			System.out.println(hucha.getDesglose(Hucha.DIEZ));
 		} catch (HuchaVaciaException e) {
 			System.out.println("La hucha está cerrada");
-		} catch (ContraseñaIncorrectaException e1) {
+		} catch (ContraseñaIncorrectaException e) {
 			System.out.println("Contraseña incorrecta");
+		} catch (TipoDeBilleteMonedaNoValidoException e) {
+			System.out.println("Tipo de billete o moneda no válido");
 		}
 	}
 
