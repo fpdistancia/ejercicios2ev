@@ -3,7 +3,7 @@ package unidad6;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class TorneoPokemons {
+public class TorneoPokemonsV1 {
 
 	private static Scanner in = new Scanner(System.in);
 	private static ArrayList<Entrenador> entrenadores = new ArrayList<>();
