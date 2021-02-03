@@ -11,7 +11,10 @@ public class TorneoPokemonsV1 {
 	public static void main(String[] args) {
 		 while (quieroJugar()) {
 			 obtenerEntrenadores();
-			 jugar();
+			 if (entrenadores.size() > 0)
+				 jugar();
+			 else
+				 System.out.println("No hay entrenadores para jugar el torneo");
 		 }
 	}
 	

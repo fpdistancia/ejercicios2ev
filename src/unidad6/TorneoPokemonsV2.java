@@ -13,7 +13,10 @@ public class TorneoPokemonsV2 {
 	public static void main(String[] args) {
 		 while (quieroJugar()) {
 			 obtenerEntrenadores();
-			 jugar();
+			 if (entrenadores.size() > 0)
+				 jugar();
+			 else
+				 System.out.println("No hay entrenadores para jugar el torneo");
 		 }
 	}
 	
@@ -22,18 +25,18 @@ public class TorneoPokemonsV2 {
 		while (!linea.equalsIgnoreCase("torneo")) {
 			Scanner scanner = new Scanner(linea);
 			try {
-				String entrenador = scanner.next();
-				String pokemon = scanner.next(); 
-				String elemento = scanner.next();
+				String entrenador = scanner.next("\\p{L}+");
+				String pokemon = scanner.next("\\p{L}+"); 
+				String elemento = scanner.next("\\p{L}+");
 				int salud = scanner.nextInt();
 				if (scanner.hasNext())
-					System.out.println("Demasiados datos en esta línea, vuelve a introducirlos");
+					System.out.println("Demasiados datos en esta línea, introdúcelos de nuevo");
 				else
 					actualizarEntrenador(entrenador, pokemon, elemento, salud);
 			} catch (InputMismatchException e) {
-				System.out.println("El dato 'salud' no es un valor numérico, vuelve a introducir los datos");
+				System.out.println("El dato '" + scanner.next() + "' no es correcto, introduce los datos de nuevo");
 			} catch (NoSuchElementException e) {
-				System.out.println("Datos insuficientes, vuelve a introducirlos");
+				System.out.println("Datos insuficientes, introdúcelos de nuevo");
 			}
 			scanner.close();
 			linea = in.nextLine();
