@@ -1,6 +1,7 @@
 package unidad6;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Entrenador {
 	
@@ -37,13 +38,31 @@ public class Entrenador {
 	public String getNombre() {
 		return nombre;
 	}
-
-	public ArrayList<Pokemon> getPokemons() {
-		return pokemons;
-	}
 	
 	public void addPokemon(Pokemon p) {
 		pokemons.add(p);
+	}
+	
+	public void jugar(String elemento) {
+		boolean gana = false;
+		for(Pokemon p: pokemons)
+			if (p.getElemento().equals(elemento)) {
+				gana = true;
+				insignias++;
+			}
+		if (!gana) {
+			Iterator<Pokemon> i = pokemons.iterator();
+			while (i.hasNext()) {
+				Pokemon p = i.next();
+				if (p.addSalud(-10) <= 0)
+					i.remove();
+			}
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return nombre + " " + insignias + " " + pokemons.size();
 	}
 	
 }

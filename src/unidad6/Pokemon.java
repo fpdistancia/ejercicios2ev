@@ -19,7 +19,11 @@ public class Pokemon {
 	public void setSalud(int salud) {
 		this.salud = salud;
 	}
-
+	
+	public int addSalud(int salud) {
+		return this.salud += salud;
+	}
+	
 	public String getNombre() {
 		return nombre;
 	}

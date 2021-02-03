@@ -6,11 +6,9 @@ import java.util.Scanner;
 public class TorneoPokemons {
 
 	private static Scanner in = new Scanner(System.in);
-	private ArrayList<Entrenador> entrenadores = new ArrayList<>();
+	private static ArrayList<Entrenador> entrenadores = new ArrayList<>();
 	
 	public static void main(String[] args) {
-		 
-		 
 		 while (quieroJugar()) {
 			 obtenerEntrenadores();
 			 jugar();
@@ -20,7 +18,6 @@ public class TorneoPokemons {
 	static void obtenerEntrenadores() {
 		String linea = in.nextLine();
 		while (!linea.equalsIgnoreCase("torneo")) {
-			// Ash Charizard fuego 100
 			String [] items = linea.split(" ");
 			if (items.length != 4)
 				System.out.println("Entrada de datos incorrecta, vuelve a introducirlos");
@@ -40,11 +37,27 @@ public class TorneoPokemons {
 	}
 	
 	static void actualizarEntrenador(String nombre, String pokemon, String elemento, int salud) {
-		
+		Entrenador entrenador = null;
+		for (Entrenador e: entrenadores)
+			if (e.getNombre().equals(nombre)) {
+				entrenador = e;
+				break;
+			}
+		if (entrenador == null) {
+			entrenador = new Entrenador(nombre);
+			entrenadores.add(entrenador);
+		}
+		entrenador.addPokemon(new Pokemon(pokemon, elemento, salud));
 	}
 	
 	static void jugar() {
-		
+		String linea = in.nextLine();
+		while (!linea.equalsIgnoreCase("fin")) {
+			for (Entrenador e: entrenadores)
+				e.jugar(linea);
+			linea = in.nextLine();
+		}
+		entrenadores.forEach(p -> System.out.println(p));
 	}
 	
 	static boolean quieroJugar() {
@@ -61,3 +74,24 @@ public class TorneoPokemons {
 	}
 
 }
+
+/*
+Ash Charizard fuego 100
+Brock Squirtle agua 38 
+Ash Pikachu electricidad 10
+torneo
+fuego
+electricidad
+fin
+*/
+
+/*
+Misty Blastoise agua 18
+Clemont Pikachu electricidad 22
+Millo Kadabra psíquico 90
+torneo
+fuego
+electricidad
+fuego
+fin
+*/
