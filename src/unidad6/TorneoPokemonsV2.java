@@ -1,5 +1,8 @@
 package unidad6;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
@@ -7,11 +10,11 @@ import java.util.Scanner;
 
 public class TorneoPokemonsV2 {
 
-	private static Scanner in = new Scanner(System.in);
+	private static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 	private static ArrayList<Entrenador> entrenadores = new ArrayList<>();
 	
-	public static void main(String[] args) {
-		 while (quieroJugar()) {
+	public static void main(String[] args) throws IOException {
+		while (quieroJugar()) {
 			 obtenerEntrenadores();
 			 if (entrenadores.size() > 0)
 				 jugar();
@@ -20,8 +23,9 @@ public class TorneoPokemonsV2 {
 		 }
 	}
 	
-	static void obtenerEntrenadores() {
-		String linea = in.nextLine();
+	
+	static void obtenerEntrenadores() throws IOException {
+		String linea = in.readLine();
 		while (!linea.equalsIgnoreCase("torneo")) {
 			Scanner scanner = new Scanner(linea);
 			try {
@@ -34,13 +38,20 @@ public class TorneoPokemonsV2 {
 				else
 					actualizarEntrenador(entrenador, pokemon, elemento, salud);
 			} catch (InputMismatchException e) {
-				System.out.println("El dato '" + scanner.next() + "' no es correcto, introduce los datos de nuevo");
+				señalarError(scanner);
 			} catch (NoSuchElementException e) {
 				System.out.println("Datos insuficientes, introdúcelos de nuevo");
 			}
 			scanner.close();
-			linea = in.nextLine();
+			linea = in.readLine();
 		}
+	}
+	
+	static void señalarError(Scanner scanner) {
+		String error = scanner.next();
+		int i = scanner.match().start();
+		String formato = String.format("%%%ds\n'" + error + "' no es correcto, introduce los datos de nuevo\n", i + 1);
+		System.out.printf(formato, "^");
 	}
 	
 	static void actualizarEntrenador(String nombre, String pokemon, String elemento, int salud) {
@@ -57,22 +68,22 @@ public class TorneoPokemonsV2 {
 		entrenador.addPokemon(new Pokemon(pokemon, elemento, salud));
 	}
 	
-	static void jugar() {
-		String linea = in.nextLine();
+	static void jugar() throws IOException {
+		String linea = in.readLine();
 		while (!linea.equalsIgnoreCase("fin")) {
 			for (Entrenador e: entrenadores)
 				e.jugar(linea);
-			linea = in.nextLine();
+			linea = in.readLine();
 		}
 		entrenadores.forEach(p -> System.out.println(p));
 	}
 	
-	static boolean quieroJugar() {
+	static boolean quieroJugar() throws IOException {
 		boolean quieroJugar;
 		boolean correcta;
 		do {
 			System.out.print("¿Jugar un torneo? (s/n): ");
-			String respuesta = in.nextLine().toLowerCase();
+			String respuesta = in.readLine().toLowerCase();
 			correcta = (quieroJugar = respuesta.equals("s")) || respuesta.equals("n");
 			if (!correcta)
 				System.out.println("Respuesta incorrecta");
