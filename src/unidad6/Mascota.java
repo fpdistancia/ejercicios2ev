@@ -4,7 +4,19 @@ import java.util.Random;
 
 public class Mascota {
 	
-	public static enum Estado { SANA, ENFERMA, FALLECIDA } 
+	public static enum Estado {
+		SANA("RRRRRRRRR"),
+		APATICA("PUF"), 
+		ENFERMA("AY"), 
+		FALLECIDA("LA MASCOTA HA FALLECIDO");
+		String descripcion;
+		private Estado(String descripcion) {
+			this.descripcion = descripcion;
+		}
+		public String getDescripcion() {
+			return descripcion;
+		}
+	} 
 	
 	private static Random r = new Random();
 	
@@ -18,65 +30,69 @@ public class Mascota {
 	public String getNombre() {
 		return nombre;
 	}
-
-
-
+	
 	public String comer() {
-		if (estado() == Estado.FALLECIDA)
+		Estado e = estado();
+		if (e == Estado.FALLECIDA)
 			new Exception("La mascota ha fallecido");
-		if (r.nextInt(10) < 3 && estado() == Estado.SANA && energia > 10)
+		if (r.nextInt(10) < 3 && e == Estado.SANA && energia > 10)
 			energia = 10;
-		else if (estado() == Estado.ENFERMA)
-			energia--;
+		else if (e == Estado.ENFERMA) 
+			agravarEnfermedad();
 		else
 			energia += 5;
-		return estadoDeAnimo();
+		return estado().getDescripcion() + " " + energia + " " + estado();
 	}
 	
 	public String dormir() {
-		if (estado() == Estado.FALLECIDA)
+		Estado e = estado();
+		if (e == Estado.FALLECIDA)
 			new Exception("La mascota a fallecido");
-		if (estado() == Estado.ENFERMA)
-			energia--;
+		if (e == Estado.ENFERMA) 
+			agravarEnfermedad();
 		else
 			energia += 2;
-		return estadoDeAnimo();
+		return estado().getDescripcion() + " " + energia + " " + estado();
 	}
 	
 	public String hacerEjercicio() {
-		if (estado() == Estado.FALLECIDA)
+		Estado e = estado();
+		if (e == Estado.FALLECIDA)
 			new Exception("La mascota a fallecido");
-		energia -= 3;
-		if (estado() == Estado.ENFERMA)
+		if (e == Estado.ENFERMA) 
+			agravarEnfermedad();
+		else
+			energia -= 3;
+		return estado().getDescripcion() + " " + energia + " " + estado();
+	}
+	
+	private void agravarEnfermedad() {
+		if (energia < 5)
 			energia--;
-		return estadoDeAnimo();
+		else
+			energia++;
 	}
 	
 	public Estado estado() {
-		if (energia >= 5 && energia <=50)
-			return Estado.SANA;
-		else if ((energia >= 0 && energia < 5) || (energia > 50 && energia <= 55))
-			return Estado.ENFERMA;
-		else 
+		if (energia < 0 || energia > 55)
 			return Estado.FALLECIDA;
+		else if (energia < 5 || energia > 50)
+			return Estado.ENFERMA;
+		else if (energia < 7 || energia > 47)
+			return Estado.APATICA;
+		else 
+			return Estado.SANA;
 	}
 	
 	public void curar() {
-		if (estado() == Estado.FALLECIDA)
+		Estado e = estado();
+		if (e == Estado.FALLECIDA)
 			new Exception("La mascota a fallecido");
-		if (estado() == Estado.ENFERMA)
+		if (e == Estado.ENFERMA)
 			energia = 20;
-	}
-	
-	private String estadoDeAnimo() {
-		if (energia > 8 || energia <  47)
-			return "RRRRRRRRR " + energia + estado();
-		else if ((energia > 4 && energia <= 8) || (energia >= 47 && energia <= 50) )
-			return "PUF " + energia + estado();
-		else if (estado() == Estado.ENFERMA)
-			return "AY " + energia + estado();
 		else
-			return "LA MASCOTA HA FALLECIDO " + energia + estado();
+			// esto no se dice en el enunciado del ejercicio
+			energia = 10;
 	}
 	
 }
