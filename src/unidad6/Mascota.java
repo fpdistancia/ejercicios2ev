@@ -41,7 +41,7 @@ public class Mascota {
 			agravarEnfermedad();
 		else
 			energia += 5;
-		return estado().getDescripcion() + " " + energia + " " + estado();
+		return estado().getDescripcion();
 	}
 	
 	public String dormir() {
@@ -52,7 +52,7 @@ public class Mascota {
 			agravarEnfermedad();
 		else
 			energia += 2;
-		return estado().getDescripcion() + " " + energia + " " + estado();
+		return estado().getDescripcion();
 	}
 	
 	public String hacerEjercicio() {
@@ -63,7 +63,7 @@ public class Mascota {
 			agravarEnfermedad();
 		else
 			energia -= 3;
-		return estado().getDescripcion() + " " + energia + " " + estado();
+		return estado().getDescripcion();
 	}
 	
 	private void agravarEnfermedad() {
