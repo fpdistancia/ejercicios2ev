@@ -1,6 +1,7 @@
 package unidad7;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class PruebaPublicaciones {
 
@@ -9,7 +10,6 @@ public class PruebaPublicaciones {
 		
 		procesarPublicación(new Libro(1, "El Quijote", 1605, "Cervantes"));
 		procesarPublicación(new Revista(2, "x", 1, 1, 2021, 100));
-		
 		
 	}
 	
